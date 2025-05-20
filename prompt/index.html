@@ -119,7 +119,7 @@
           messageArea.textContent = 'Fehler: ' + (data.error || 'Unbekannt');
         }
       } catch (error) {
-        messageArea.textContent = 'Verbindungsfehler oder ungültige Antwort.';
+        messageArea.textContent = error;
       } finally {
         // UI zurücksetzen
         spinner.style.display = 'none';
