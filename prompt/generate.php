@@ -6,8 +6,8 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $apiKey = $_ENV['API_KEY'] ?? null;
-$prompt = $_POST['prompt'] ?? '';
-$saveDir = 'images';
+$prompt = $_POST['prompt'] ?? 'test';
+$saveDir = '../images';
 
 if (!$prompt) {
     echo json_encode(['success' => false, 'error' => 'Kein Prompt angegeben.']);
