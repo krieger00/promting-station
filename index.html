@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Prompting Station</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      margin: 20px auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      padding: 12px 20px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .submit-container {
+      position: relative;
+      height: 48px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #191919;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .spinner {
+      display: none;
+      margin: 0 auto;
+      width: 40px;
+      height: 40px;
+      border: 5px solid #ccc;
+      border-top: 5px solid #1976D2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .message {
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Prompting Station</h1>
+
+  <form id="promptForm">
+    <input type="text" name="prompt" id="promptInput" placeholder="Gib deinen Bildprompt ein..." required>
+    <div class="submit-container">
+      <button type="submit" id="generateButton">Bild generieren</button>
+      <div class="spinner" id="loadingSpinner"></div>
+    </div>
+  </form>
+
+  <div class="message" id="messageArea"></div>
+
+  <script>
+    const form = document.getElementById('promptForm');
+    const spinner = document.getElementById('loadingSpinner');
+    const button = document.getElementById('generateButton');
+    const messageArea = document.getElementById('messageArea');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Kein Reload
+      const prompt = document.getElementById('promptInput').value;
+
+      // UI-Update: Spinner an, Button aus
+      button.style.display = 'none';
+      spinner.style.display = 'block';
+      messageArea.textContent = '';
+
+      try {
+        const response = await fetch('generate.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ prompt })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          messageArea.textContent = 'Bild wurde erfolgreich generiert.';
+        } else {
+          messageArea.textContent = 'Fehler: ' + (data.error || 'Unbekannt');
+        }
+      } catch (error) {
+        messageArea.textContent = 'Verbindungsfehler oder ungültige Antwort.';
+      } finally {
+        // UI zurücksetzen
+        spinner.style.display = 'none';
+        button.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
