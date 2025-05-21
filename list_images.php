@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 $dir = 'images/';
-$allowed = ['png', 'jpg', 'jpeg', 'webp'];
+$allowed = ['jpg', 'jpeg', 'webp'];
 $files = [];
 
 foreach (scandir($dir) as $file) {

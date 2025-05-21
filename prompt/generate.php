@@ -40,7 +40,29 @@ if (!isset($result['data'][0]['b64_json'])) {
 
 $base64 = $result['data'][0]['b64_json'];
 $imageData = base64_decode($base64);
-$filename = uniqid('img_') . '.png';
-file_put_contents("$saveDir/$filename", $imageData);
+$filenamePng = uniqid('img_') . '.png';
+$filepathPng = "$saveDir/$filenamePng";
+file_put_contents($filepathPng, $imageData);
 
-echo json_encode(['success' => true, 'filename' => $filename]);
+// PNG zu JPEG konvertieren
+$filenameJpeg = str_replace('.png', '.jpg', $filenamePng);
+$filepathJpeg = "$saveDir/$filenameJpeg";
+
+$image = imagecreatefrompng($filepathPng);
+if ($image === false) {
+    echo json_encode(['success' => false, 'error' => 'Fehler beim Laden des PNG-Bildes.']);
+    exit;
+}
+
+// Hintergrund weiß setzen (für transparente PNGs)
+$background = imagecreatetruecolor(imagesx($image), imagesy($image));
+$white = imagecolorallocate($background, 25, 25, 25);
+imagefill($background, 0, 0, $white);
+imagecopy($background, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+
+imagejpeg($background, $filepathJpeg, 90); // Qualität: 90
+imagedestroy($image);
+imagedestroy($background);
+
+
+echo json_encode(['success' => true, 'filename' => $filenameJpeg]);
