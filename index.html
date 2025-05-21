@@ -15,14 +15,49 @@
     h1 {
       text-align: center;
     }
-
     #gallery {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr); /* genau 2 Kacheln pro Zeile */
-        gap: 20px;
-        margin-top: 30px;
-        padding: 0 20px; /* etwas Rand links/rechts */
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+      padding: 0 20px;
     }
+
+    /* Mobile Hochformat: 1 Bild pro Zeile */
+    @media (max-width: 600px) and (orientation: portrait) {
+        #gallery {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Mobile Querformat: 2 Bilder pro Zeile */
+    @media (max-width: 800px) and (orientation: landscape) {
+        #gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 1200px) {
+        #gallery {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+    @media (max-width: 1000px) {
+        #gallery {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media (max-width: 800px) {
+        #gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 600px) {
+        #gallery {
+          grid-template-columns: 1fr;
+        }
+    }
+
 
     .tile {
       background: black;
