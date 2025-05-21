@@ -24,18 +24,7 @@
     }
 
     /* Mobile Hochformat: 1 Bild pro Zeile */
-    @media (max-width: 600px) and (orientation: portrait) {
-        #gallery {
-            grid-template-columns: 1fr;
-        }
-    }
 
-    /* Mobile Querformat: 2 Bilder pro Zeile */
-    @media (max-width: 800px) and (orientation: landscape) {
-        #gallery {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
 
     @media (max-width: 1200px) {
         #gallery {
@@ -57,7 +46,18 @@
           grid-template-columns: 1fr;
         }
     }
+    @media (max-width: 600px) and (orientation: portrait) {
+        #gallery {
+            grid-template-columns: 1fr;
+        }
+    }
 
+    /* Mobile Querformat: 2 Bilder pro Zeile */
+    @media (max-width: 800px) and (orientation: landscape) {
+        #gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 
     .tile {
       background: black;
