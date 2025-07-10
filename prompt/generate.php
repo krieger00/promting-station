@@ -71,14 +71,16 @@ if (file_exists($filename)) {
     $images = json_decode($jsonInhalt, true);
     
     // Sicherstellen, dass $daten ein Array ist
-    $images[] = $neuerEintrag;
-}
 
-if (!in_array($filepathJpeg, $images)) {
+    if (!in_array($filepathJpeg, $images)) {
+    $filepathJpeg = str_replace('../', '', $filepathJpeg);
     $images[] = $filepathJpeg;
 
     // JSON zurückschreiben
     file_put_contents($filename, json_encode($images, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    }
 }
+
+
 
 echo json_encode(['success' => true, 'filename' => $filenameJpeg]);
