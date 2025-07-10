@@ -1,4 +1,6 @@
 <?php
+echo "this function is deprecated. Load image.json to get the available images.";
+/*
 header('Content-Type: application/json');
 
 $dir = 'images/';
@@ -12,4 +14,4 @@ foreach (scandir($dir) as $file) {
     }
 }
 
-echo json_encode($files);
+echo json_encode($files);*/

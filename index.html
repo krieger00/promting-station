@@ -86,7 +86,7 @@
 
     async function loadImages() {
       try {
-        const res = await fetch('list_images.php');
+        const res = await fetch('images.json');
         const files = await res.json();
 
         const newFiles = files.filter(f => !loadedImages.has(f));

@@ -56,13 +56,29 @@ if ($image === false) {
 
 // Hintergrund weiß setzen (für transparente PNGs)
 $background = imagecreatetruecolor(imagesx($image), imagesy($image));
-$white = imagecolorallocate($background, 25, 25, 25);
-imagefill($background, 0, 0, $white);
+$bgcolor = imagecolorallocate($background, 25, 25, 25);
+imagefill($background, 0, 0, $bgcolor);
 imagecopy($background, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
 
 imagejpeg($background, $filepathJpeg, 90); // Qualität: 90
 imagedestroy($image);
 imagedestroy($background);
 
+$filename = '../images.json';
+
+if (file_exists($filename)) {
+    $jsonInhalt = file_get_contents($filename);
+    $images = json_decode($jsonInhalt, true);
+    
+    // Sicherstellen, dass $daten ein Array ist
+    $images[] = $neuerEintrag;
+}
+
+if (!in_array($filepathJpeg, $images)) {
+    $images[] = $filepathJpeg;
+
+    // JSON zurückschreiben
+    file_put_contents($filename, json_encode($images, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+}
 
 echo json_encode(['success' => true, 'filename' => $filenameJpeg]);
